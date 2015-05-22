@@ -34,8 +34,8 @@ gulp.task('browserify', function () {
 gulp.task('watchify', function () {
 
     var watcher = watchify(browserify({
-        entries: ['./src/js/main.js'], // Only need initial file, browserify finds the deps
-        transform: [reactify], // We want to convert JSX to normal javascript
+        entries: ['./src/js/main.js'],
+        transform: [reactify],
         debug: true,
         cache: {},
         packageCache: {},

@@ -5,6 +5,8 @@ import os
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
 
+from livereload import Server, shell
+
 import flask
 from flask import Flask, render_template
 from flask.ext.frozen import Freezer
@@ -90,7 +92,6 @@ if __name__ == "__main__":
     observer.schedule(handler, './build', recursive=True)
     observer.start()
 
-    from livereload import Server, shell
     server = Server()
     server.watch('output/*')
     server.watch('output/*/*')

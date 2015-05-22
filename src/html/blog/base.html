@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 
 {% block body %}
-  <div>
-    This is part of a blog!
-  </div>
+  {% include 'blog/partials/header.html' %}
   <div class="blog">
     {% block content %}
     {% endblock %}
