@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  {% include 'partials/topbar.html' %}
+  <div>
+    This is a flatpage...
+  </div>
+  <div class="flatpage">
+    {% block content %}
+    {% endblock %}
+  </div>
+{% endblock %}
