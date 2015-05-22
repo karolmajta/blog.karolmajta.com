@@ -85,8 +85,9 @@ if __name__ == "__main__":
         ]
     )
     observer = Observer()
-    observer.schedule(handler, '.', recursive=True)
-
+    observer.schedule(handler, './src', recursive=True)
+    observer.schedule(handler, './content', recursive=True)
+    observer.schedule(handler, './build', recursive=True)
     observer.start()
 
     from livereload import Server, shell
