@@ -1,3 +1,4 @@
+import subprocess
 import signal
 import time
 import os
@@ -86,6 +87,17 @@ if __name__ == "__main__":
             './build/*'
         ]
     )
+
+    GULP_BIN = os.environ['GULP_BIN']
+    JS_REL_DIR = os.environ['JS_REL_DIR']
+    CSS_REL_DIR = os.environ['CSS_REL_DIR']
+    gulp = subprocess.Popen([
+        GULP_BIN,
+        'develop',
+        '--js-dir=' + JS_REL_DIR,
+        '--css-dir=' + CSS_REL_DIR
+    ])
+
     observer = Observer()
     observer.schedule(handler, './src', recursive=True)
     observer.schedule(handler, './content', recursive=True)
