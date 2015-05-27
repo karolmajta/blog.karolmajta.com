@@ -5,6 +5,7 @@ from collections import OrderedDict
 
 import iso8601
 from slugify import slugify
+from bs4 import BeautifulSoup
 
 
 class InvalidBlogPost(Exception):
@@ -30,7 +31,8 @@ class BlogPost(object):
             }
         )
         self.raw = raw
-        self.html = md.convert(raw.decode('utf-8'),)
+        self.html = md.convert(raw.decode('utf-8'))
+        self.soup = BeautifulSoup(self.html)
         try:
             self.meta = md.Meta
             self.date = iso8601.parse_date(self.meta.get('date')[0])
@@ -41,6 +43,13 @@ class BlogPost(object):
             self.tags = BlogPost._parse_tags(self.meta.get('tags', [''])[0])
         except Exception as e:
             raise InvalidBlogPost(e.message)
+
+    def excerpt(self):
+        try:
+            contents = self.soup.find_all('p')[0].contents
+            return reduce(lambda acc, s: acc + unicode(s), contents, '')
+        except IndexError:
+            return u''
 
     @staticmethod
     def _parse_tags(tags_str):
@@ -70,9 +79,12 @@ class BlogPostCollection(object):
 
     def latest(self):
         try:
-            return sorted(self.dict.values(), key=lambda p: p.date, reverse=True)[0]
+            return self.all()[0]
         except IndexError:
             return None
+
+    def all(self):
+        return sorted(self.dict.values(), key=lambda p: p.date, reverse=True)
 
     def keys(self):
         return self.dict.keys()

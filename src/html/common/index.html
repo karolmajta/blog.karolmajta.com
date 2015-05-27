@@ -3,11 +3,32 @@
 {% block content %}
   <div class="container">
   <div class="row">
-    <div class="col-md-6">
-      asdasd
+    <div class="col-md-8">
+      <div class="post-preview">
+        <a href="{{ url_for('article_detail', slug=blogpost.slug) }}">
+          <h2 class="post-title">{{ blogpost.title }}</h1>
+          <h3 class="post-subtitle">{{ blogpost.subtitle }}</h2>
+        </a>
+        <p>
+          {{ blogpost.excerpt()|safe }}
+          <a href="{{ url_for('article_detail', slug=blogpost.slug) }}">Read more.</a>
+        </p>
+        <p class="post-meta">Posted by {{ blogpost.author }} on {{ blogpost.date.strftime('%d %B, %Y') }}</p>
+      </div>
+      <hr>
+      {% for bp in blogposts %}
+      <div class="post-preview">
+        <a href="{{ url_for('article_detail', slug=bp.slug) }}">
+          <h2 class="post-title">{{ bp.title }}</h1>
+          <h3 class="post-subtitle">{{ bp.subtitle }}</h2>
+        </a>
+        <p class="post-meta">Posted by {{ bp.author }} on {{ bp.date.strftime('%d %B, %Y') }}</p>
+      </div>
+      {% if not loop.last %}<hr>{% endif %}
+      {% endfor %}
     </div>
-    <div class="col-md-6">
-      xs
+    <div class="col-md-4">
+      No elo, tu cośtam :)
     </div>
   </div>
   </div>
