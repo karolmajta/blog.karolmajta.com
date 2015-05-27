@@ -23,7 +23,10 @@ class BlogPost(object):
                 'markdown.extensions.meta',
             ],
             extension_configs={
-                'markdown.extensions.codehilite': {'noclasses': True}
+                'markdown.extensions.codehilite': {
+                    'noclasses': True,
+                    'pygments_style': 'tango',
+                }
             }
         )
         self.raw = raw

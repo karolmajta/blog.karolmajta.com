@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 
 {% block body %}
-  <div>
-    This is a flatpage man...
-  </div>
   <div class="flatpage">
     {% block content %}
     {% endblock %}
+    {% include 'partials/footer.html' %}
   </div>
 {% endblock %}

@@ -7,13 +7,19 @@ var _ = require('lodash'),
     less = require('gulp-less-sourcemap');
 var argv = minimist(process.argv.slice(2));
 
-var REQUIRED_FLAGS = ['js-dir', 'css-dir'];
+var REQUIRED_FLAGS = ['js-dir', 'css-dir', 'img-dir'];
 if (!_.all(_.map(REQUIRED_FLAGS, function (f) { return argv[f]; }))) {
-  console.log("USAGE: gulp develop --js-dir=<js dir> --css-dir=<css dir>")
+  console.log("USAGE: gulp develop --js-dir=<js dir> --css-dir=<css dir> --img-dir=<img dir>")
   process.exit(1);
 }
 var JS_DIR = argv['js-dir']
 var CSS_DIR = argv['css-dir']
+var IMG_DIR = argv['img-dir']
+
+gulp.task('assets', function () {
+  return gulp.src('./src/img/**/*')
+    .pipe(gulp.dest(IMG_DIR));
+});
 
 gulp.task('less', function () {
   return gulp.src('./src/less/main.less')
@@ -23,8 +29,8 @@ gulp.task('less', function () {
     .pipe(gulp.dest(CSS_DIR));
 });
 
-gulp.task('lesswatch', function () {
-  gulp.watch(['./src/less/**/*.less'], ['less']);
+gulp.task('watch', function () {
+  gulp.watch(['./src/less/**/*.less'], ['less', 'assets']);
 });
 
 gulp.task('browserify', function () {
@@ -62,4 +68,5 @@ gulp.task('watchify', function () {
 
 });
 
-gulp.task('develop', ['watchify', 'lesswatch']);
+gulp.task('build', ['less', 'assets', 'browserify']);
+gulp.task('develop', ['watchify', 'watch']);

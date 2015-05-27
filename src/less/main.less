@@ -157,9 +157,9 @@ hr.small {
 // Header
 
 .intro-header {
-	background-color: @gray;
+	background-color: #f2731f;
+	background-image: url('../img/header-background.png');
 	background-attachment: scroll;
-	.background-cover;
 	// NOTE: Background images are set within the HTML using inline CSS!
 	margin-bottom: 50px;
 	.site-heading,
@@ -455,4 +455,36 @@ img::-moz-selection {
 
 body {
 	webkit-tap-highlight-color: @brand-primary;
+}
+
+// code
+code {
+	font-family: 'PT Mono', sans-serif;
+}
+
+div.codehilite {
+	border-radius: 10px;
+  border: 1px solid @gray-light;
+	padding: 10px 20px;
+	pre {
+		font-family: 'PT Mono', sans-serif;
+		background: none;
+		border: none;
+		overflow: auto;
+		font-size: 18px;
+		span {
+			white-space: pre;
+		}
+	}
+}
+
+// flatpage
+div.flatpage {
+	height: 100vh;
+	background-color: gray;
+	color: white;
+	.container {
+		padding-top: 50%;
+		height: 50vh;
+	}
 }

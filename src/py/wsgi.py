@@ -40,45 +40,50 @@ class ReloadingEventsHandler(PatternMatchingEventHandler):
             self.freezer()
             print "Done."
 
-app = Flask(
-    __name__, template_folder=os.environ['TEMPLATE_DIR']
-)
-
-app.config['FREEZER_DESTINATION'] = os.path.join(ROOT_PATH, 'output')
-app.config['FREEZER_DESTINATION_IGNORE'] = [
-    os.path.join(ROOT_PATH, 'build/css/*'),
-    os.path.join(ROOT_PATH, 'build/js/*')
-]
-
-for route in routes:
-    app.add_url_rule(*route)
-
-def freezer():
+def freezer(app):
     blogposts = BlogPostCollection(os.path.join(os.environ['CONTENT_DIR'], 'blog'))
     blogposts.build()
     app.blogposts = blogposts
     freezer = Freezer(app)
     freezer.register_generator(url_generators.static.js)
     freezer.register_generator(url_generators.static.css)
+    freezer.register_generator(url_generators.static.img)
     freezer.register_generator(url_generators.blog.article_list)
     freezer.freeze()
 
-def watch_files():
-    observer = Observer()
-    observer.schedule(event_handler, path, recursive=True)
-    observer.start()
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        observer.stop()
-    observer.join()
+
+def make_app(routes):
+    app = Flask(
+        __name__, template_folder=os.environ['TEMPLATE_DIR']
+    )
+    app.config['FREEZER_DESTINATION'] = os.path.join(ROOT_PATH, 'output')
+    app.config['FREEZER_DESTINATION_IGNORE'] = [
+        os.path.join(ROOT_PATH, 'build/css/*'),
+        os.path.join(ROOT_PATH, 'build/js/*')
+    ]
+    for route in routes:
+        app.add_url_rule(*route)
+
+    return app
 
 if __name__ == "__main__":
-    freezer()
+    GULP_BIN = os.environ['GULP_BIN']
+    JS_REL_DIR = os.environ['JS_REL_DIR']
+    CSS_REL_DIR = os.environ['CSS_REL_DIR']
+    IMG_REL_DIR = os.environ['IMG_REL_DIR']
+    subprocess.Popen([
+        GULP_BIN,
+        'build',
+        '--js-dir=' + JS_REL_DIR,
+        '--css-dir=' + CSS_REL_DIR,
+        '--img-dir=' + IMG_REL_DIR
+    ]).wait()
+
+    app = make_app(routes)
+    freezer(app)
 
     handler = ReloadingEventsHandler(
-        freezer=freezer,
+        freezer=lambda: freezer(app),
         throttle_seconds=0.3,
         patterns=[
             './src/py/*.py',
@@ -88,14 +93,12 @@ if __name__ == "__main__":
         ]
     )
 
-    GULP_BIN = os.environ['GULP_BIN']
-    JS_REL_DIR = os.environ['JS_REL_DIR']
-    CSS_REL_DIR = os.environ['CSS_REL_DIR']
     gulp = subprocess.Popen([
         GULP_BIN,
         'develop',
         '--js-dir=' + JS_REL_DIR,
-        '--css-dir=' + CSS_REL_DIR
+        '--css-dir=' + CSS_REL_DIR,
+        '--img-dir=' + IMG_REL_DIR
     ])
 
     observer = Observer()

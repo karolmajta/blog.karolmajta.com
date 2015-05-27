@@ -8,3 +8,6 @@ def send_js(path):
 
 def send_css(path):
     return send_from_directory(os.environ['CSS_DIR'], path)
+
+def send_img(path):
+    return send_from_directory(os.environ['IMG_DIR'], path)

@@ -11,4 +11,5 @@ routes = (
 
     ('/js/<path:path>', 'send_js', views.static.send_js),
     ('/css/<path:path>', 'send_css', views.static.send_css),
+    ('/img/<path:path>', 'send_img', views.static.send_img),
 )

@@ -4,6 +4,7 @@ import glob
 
 JS_DIR = os.environ['JS_DIR']
 CSS_DIR = os.environ['CSS_DIR']
+IMG_DIR = os.environ['IMG_DIR']
 
 
 def js():
@@ -18,3 +19,9 @@ def css():
     relpaths = [os.path.relpath(p, CSS_DIR) for p in abspaths]
     for path in relpaths:
         yield ('send_css', {'path': path})
+
+def img():
+    abspaths = glob.glob(os.path.join(IMG_DIR, '*'))
+    relpaths = [os.path.relpath(p, IMG_DIR) for p in abspaths]
+    for path in relpaths:
+        yield ('send_img', {'path': path})
