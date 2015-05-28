@@ -1,5 +1,6 @@
 argh==0.26.1
 backports.ssl-match-hostname==3.4.0.2
+beautifulsoup4==4.3.2
 certifi==2015.4.28
 Flask==0.10.1
 Frozen-Flask==0.11

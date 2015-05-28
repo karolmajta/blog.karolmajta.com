@@ -1,0 +1,22 @@
+{% extends 'flatpage.html' %}
+
+{% block content %}
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          {% for bp in blogposts %}
+            <div class="post-preview">
+              <a href="{{ url_for('article_detail', slug=bp.slug) }}">
+                <h2 class="post-title">{{ bp.title }}</h1>
+                <h3 class="post-subtitle">{{ bp.subtitle }}</h2>
+              </a>
+              <p class="post-meta">Posted by {{ bp.author }} on {{ bp.date.strftime('%d %B, %Y') }}</p>
+            </div>
+            {% if not loop.last %}<hr>{% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </article>
+{% endblock %}

@@ -6,3 +6,7 @@ def article_detail(slug=None):
     else:
         blogpost = current_app.blogposts.get(slug)
     return render_template('blog/article_detail.html', blogpost=blogpost)
+
+def archive():
+    blogposts = current_app.blogposts.all()
+    return render_template('blog/archive.html', blogposts=blogposts)

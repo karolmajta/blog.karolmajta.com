@@ -24,4 +24,5 @@ def img():
     abspaths = glob.glob(os.path.join(IMG_DIR, '*'))
     relpaths = [os.path.relpath(p, IMG_DIR) for p in abspaths]
     for path in relpaths:
+        print path
         yield ('send_img', {'path': path})
