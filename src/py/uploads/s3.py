@@ -24,7 +24,13 @@ def upload_paths(s3, paths):
 
 
 if __name__ == '__main__':
-    s3 = tinys3.Connection('AKIAJJH6Q3AIEPVYJFAA', 'rH3Yy0LHFtoenU/fRcTlvJ+fjv7lAY+15zOaFryg', tls=True, default_bucket='com.karolmajta.blog', endpoint='s3.amazonaws.com')
+    s3 = tinys3.Connection(
+        os.environ['S3_KEY'],
+        os.environ['S3_SECRET'],
+        tls=True,
+        default_bucket=os.environ['S3_BUCKET'],
+        endpoint=os.environ['S3_REGION']
+    )
     present_paths = get_current_paths(s3)
     delete_paths(s3, present_paths)
     future_paths = collect_paths('output')
