@@ -4,6 +4,7 @@ beautifulsoup4==4.3.2
 certifi==2015.4.28
 Flask==0.10.1
 Frozen-Flask==0.11
+futures==3.0.2
 iso8601==0.1.10
 itsdangerous==0.24
 Jinja2==2.7.3
@@ -13,7 +14,9 @@ MarkupSafe==0.23
 pathtools==0.1.2
 Pygments==2.0.2
 PyYAML==3.11
+requests==2.7.0
 slugify==0.0.1
+tinys3==0.1.11
 tornado==4.1
 watchdog==0.8.3
 Werkzeug==0.10.4

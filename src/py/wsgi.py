@@ -14,6 +14,7 @@ from flask.ext.frozen import Freezer
 
 import url_generators.static
 import url_generators.blog
+import context_processors.environment
 from routes import routes
 from models.blog import BlogPostCollection
 
@@ -61,6 +62,8 @@ def make_app(routes):
         os.path.join(ROOT_PATH, 'build/css/*'),
         os.path.join(ROOT_PATH, 'build/js/*')
     ]
+    app.context_processor(context_processors.environment.inject_environment)
+
     for route in routes:
         app.add_url_rule(*route)
 
